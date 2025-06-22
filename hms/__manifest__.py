@@ -22,10 +22,10 @@ Features:
         'reports/report.xml',
         'reports/appointment_prescription.xml',
         
-        
+        'views/appointment_view.xml',
         'views/patient_view.xml',
         'views/doctor_view.xml',
-        'views/appointment_view.xml',
+        
         
         'views/medicine_views.xml',
 
