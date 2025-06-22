@@ -1,0 +1,104 @@
+<odoo>
+    <record id="view_hms_appointment_tree" model="ir.ui.view">
+        <field name="name">hms.appointment.tree</field>
+        <field name="model">hms.appointment</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="appointment_date"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hms_appointment_form" model="ir.ui.view">
+        <field name="name">hms.appointment.form</field>
+        <field name="model">hms.appointment</field>
+        <field name="arch" type="xml">
+            <form string="Appointment">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_done" type="object" invisible="state != 'confirmed'" string="Done"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state != 'confirmed'" class="btn-danger"/>
+                    <button name="action_print_prescription"
+            string="Print Prescription"
+            type="object"
+            class="btn-primary"
+            icon="fa-print"/>
+
+
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done"/>
+                </header>
+
+                <sheet>
+                    <field name="invoice_id" invisible="1"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_invoice" type="object"
+                                class="oe_stat_button" icon="fa-file-invoice"
+                                invisible="invoice_id == False">
+                            <field name="invoice_id" widget="statinfo" string="Invoice"/>
+                        </button>
+                    </div>
+                    <group>
+                        <field name="name" readonly="1"/>
+                        <field name="patient_id"/>
+                        <field name="doctor_id"/>
+                        <field name="appointment_date"/>
+                        <field name="consultation_fee" readonly="1"/>
+                    </group>
+                    <group string="Medical Details" col="4">
+                        <field name="diagnosis"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Medications">
+                            <field name="medication_ids">
+                                <list editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="dosage"/>
+                                    <field name="duration"/>
+                                    <field name="instructions"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                        <page string="Attachments">
+                            <field name="attachment_ids" widget="many2many_binary"
+                                options="{'accept': 'application/pdf,image/*'}"/>
+                        </page>
+
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- <record id="view_hms_appointment_calendar" model="ir.ui.view">
+        <field name="name">hms.appointment.calendar</field>
+        <field name="model">hms.appointment</field>
+        <field name="arch" type="xml">
+            <calendar string="Appointments" date_start="appointment_date" color="doctor_id">
+                <field name="patient_id"/>
+            </calendar>
+        </field>
+    </record> -->
+
+
+    <record id="action_hms_appointments" model="ir.actions.act_window">
+        <field name="name">Appointments</field>
+        <field name="res_model">hms.appointment</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_hms_root" name="Hospital Management" sequence="10"/>
+    <menuitem id="menu_hms_appointments"
+              name="Appointments"
+              parent="menu_hms_root"
+              action="action_hms_appointments"
+              sequence="30"/>
+</odoo>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_prescription_template">
+        <t t-call="web.external_layout">
+            <main>
+                <div class="page">
+                    <h2>Prescription</h2>
+                    <p><strong>Patient:</strong> <t t-esc="docs.patient_id.name"/></p>
+                    <p><strong>doctor:</strong> <t t-esc="docs.doctor_id.name"/></p>
+                    <p><strong>Date:</strong> <t t-esc="docs.appointment_date"/></p>
+                    <p><strong>Diagnosis:</strong> <t t-esc="docs.diagnosis"/></p>
+                    <t t-if="docs.medication_ids">
+                        <h4>Medications:</h4>
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Medicine</th>
+                                    <th>Dosage</th>
+                                    <th>Duration</th>
+                                    <th>Instructions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="docs.medication_ids" t-as="line">
+                                    <tr>
+                                        <td><t t-esc="line.product_id.name"/></td>
+                                        <td><t t-esc="line.dosage"/></td>
+                                        <td><t t-esc="line.duration"/></td>
+                                        <td><t t-esc="line.instructions"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                </div>
+            </main>
+        </t>
+    </template>
+</odoo>

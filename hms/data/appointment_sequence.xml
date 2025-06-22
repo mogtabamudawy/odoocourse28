@@ -1,0 +1,9 @@
+<odoo>
+    <record id="seq_hms_appointment" model="ir.sequence">
+        <field name="name">Appointment Sequence</field>
+        <field name="code">hms.appointment</field>
+        <field name="prefix">AP</field>
+        <field name="padding">4</field>
+        <!-- <field name="number_next">1</field> -->
+    </record>
+</odoo>

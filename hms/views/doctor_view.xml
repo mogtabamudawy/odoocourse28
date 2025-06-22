@@ -1,0 +1,45 @@
+<odoo>
+    <!-- Inherit the HR employee form -->
+    <record id="view_doctor_hr_employee_form" model="ir.ui.view">
+        <field name="name">hr.employee.form.doctor</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Add 'Is Doctor' checkbox after job title -->
+            <xpath expr="//field[@name='job_title']" position="after">
+                <field name="is_doctor"/>
+                <label for='is_doctor'>is Doctor</label>
+            </xpath>
+
+            <!-- Insert doctor-specific fields only if 'is_doctor' is True -->
+            <xpath expr="//sheet/notebook" position="inside">
+                <page string="Doctor Info">
+                    <field name="is_doctor"/>
+                    <group>
+                        <field name="specialty"/>
+                        <field name="license_number"/>
+                        <field name="biography"/>
+                        <field name="consultation_fee"/>
+                    </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Action to view doctors only -->
+    <record id="action_hr_doctors" model="ir.actions.act_window">
+        <field name="name">Doctors</field>
+        <field name="res_model">hr.employee</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_doctor', '=', True)]</field>
+    </record>
+
+    <!-- Doctors menu -->
+    <menuitem id="menu_hms_doctor"
+              name="Doctors"
+              parent="menu_hms_root"
+              action="action_hr_doctors"
+              sequence="20"/>
+</odoo>

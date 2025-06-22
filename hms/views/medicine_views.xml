@@ -1,0 +1,33 @@
+<!-- views/medicine_views.xml -->
+<odoo>
+    <record id="view_product_template_form_inherit" model="ir.ui.view">
+        <field name="name">product.template.form.inherit.is_medicine</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <!-- Locate sale_ok field and insert the new field after it -->
+            <xpath expr="//field[@name='sale_ok']" position="before">
+                
+                <field name="is_medicine"/>
+                <label for='is_medicine'>Is Medicine</label>
+                
+            </xpath>
+        </field>
+    </record>
+
+
+
+    <record id="action_medicine_products" model="ir.actions.act_window">
+        <field name="name">Medicines</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_medicine', '=', True)]</field>
+        <field name="context">{'default_is_medicine': 1, 'type': 'product'}</field>
+    </record>
+
+    <menuitem id="menu_medicine_root"
+              name="Medicines"
+              parent="hms.menu_hms_root"
+              sequence="20"
+              action="action_medicine_products"/>
+</odoo>
